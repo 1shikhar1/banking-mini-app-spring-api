@@ -15,19 +15,6 @@ public class AccountService {
 	@Autowired
 	AccountRepository repo;
 	
-	private static AccountService instance = null;
-
-	private AccountService() {
-
-	}
-	
-	public static AccountService getInstance() {
-		if (instance == null)
-			instance = new AccountService();
-		return instance;
-	}
-
-	
 	public void addAccount(Account account) {
 		
 		repo.addAccount(account);
