@@ -35,21 +35,12 @@ public class AccountService {
   
   public void addTransaction(Transaction transaction) {
     
-    try {
       repo.addTransaction(transaction);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
   }
   
   public List<Transaction> getTransactions(String name){
     
-    try {
-      return repo.getTransactions(name);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    return null;
+	  return repo.getTransactions(name);
   }
   
   public List<Account> getAccounts(){
@@ -59,12 +50,7 @@ public class AccountService {
   
   public Account findAccount(String name) {
     
-    try {
-      return repo.findAccount(name);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-    return null;
+	return repo.findAccount(name);
   }
   
   public void updateBalacne(String name, double balance) {

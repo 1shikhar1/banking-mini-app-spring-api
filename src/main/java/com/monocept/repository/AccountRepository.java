@@ -12,13 +12,13 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
 
 import com.monocept.model.Account;
 import com.monocept.model.Transaction;
-import com.monocept.service.AccountService;
 
 @Repository
 public class AccountRepository {
@@ -30,14 +30,15 @@ public class AccountRepository {
 		em.persist(account);
 	}
 	
-	public void addTransaction(Transaction transaction) throws SQLException {
-
+	@Transactional
+	public void addTransaction(Transaction transaction) {
+		em.persist(transaction);
 	}
 	
-	public List<Transaction> getTransactions(String userName) throws SQLException{
-		List<Transaction> transactions = new ArrayList<>();
-
-	    return transactions;
+	public List<Transaction> getTransactions(String userName) {
+		Query query = em.createQuery("Select tr from Transaction tr where tr.account_name=:arg1");
+		query.setParameter("arg1", userName);
+		return  query.getResultList();
 	}
 	
 	public List<Account> getAccounts() {
@@ -45,14 +46,16 @@ public class AccountRepository {
 	    return em.createQuery("From Account").getResultList();
 	}
 	
-	public Account findAccount(String name) throws SQLException {
-
-	    
-	    return null;
+	public Account findAccount(String name) {
+		Query query = em.createQuery("Select ac from Account ac where ac.name=:arg1");
+		query.setParameter("arg1", name);
+		return  (Account) query.getSingleResult();
 	}
 	
 	public void updateBalance(String name, double balance) throws SQLException {
-
+		Query query = em.createQuery("UPDATE Account SET balance=?1 WHERE name=?2");
+		query.setParameter(1, balance);
+		query.setParameter(2, name);
 	}
 	
 }
