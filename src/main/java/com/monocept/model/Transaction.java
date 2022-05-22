@@ -4,31 +4,35 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
 public class Transaction {
 	
-	private String name;
 	private double amount;
 	private String type;
+	@Id
 	private Timestamp time;
 	
 	@ManyToOne
+	@JoinColumn
 	private Account account;
 	
-	public Transaction(String name, double amount, String type, Timestamp time) {
+	public Transaction() {
 		
-		this.name = name;
+	}
+	
+	public Transaction(Account account, double amount, String type, Timestamp time) {
+		
+		this.account = account;
 		this.amount = amount;
 		this.type =type;
 		this.time = time;
 	}
 	
-	public String getName() {
-		return name;
-	}
 	
 	public double getAmount() {
 		return amount;
@@ -48,10 +52,6 @@ public class Transaction {
 
 	public void setAccount(Account account) {
 		this.account = account;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public void setAmount(double amount) {

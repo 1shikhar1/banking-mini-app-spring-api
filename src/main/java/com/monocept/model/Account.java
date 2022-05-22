@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -19,8 +20,12 @@ public class Account {
 	private String name;
 	private double balance;
 	private String password;
-	@OneToMany
+	@OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
 	private List<Transaction> transactions;
+	
+	public Account() {
+		
+	}
 	
 	public Account(String name, double balance, String password) {
 		this.name = name;
@@ -65,7 +70,7 @@ public class Account {
 	public void deposite(double amount) {
 		AccountService service = AccountService.getInstance();
 		
-		service.addTransaction(new Transaction(name,amount,"Deposite", Timestamp.from(Instant.now())));
+		service.addTransaction(new Transaction(this,amount,"Deposite", Timestamp.from(Instant.now())));
 		balance += amount;
 		
 		service.updateBalacne(name, balance);
@@ -74,7 +79,7 @@ public class Account {
 	public void withdraw(double amount) {
 		if ((balance - amount) >= minBalance) {
 			AccountService service = AccountService.getInstance();
-			service.addTransaction(new Transaction(name, amount, "Withdraw", Timestamp.from(Instant.now())));
+			service.addTransaction(new Transaction(this, amount, "Withdraw", Timestamp.from(Instant.now())));
 			balance -= amount;
 			service.updateBalacne(name, balance);
 		}

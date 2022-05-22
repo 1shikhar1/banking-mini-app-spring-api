@@ -3,11 +3,18 @@ package com.monocept.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.monocept.model.Account;
 import com.monocept.model.Transaction;
 import com.monocept.repository.AccountRepository;
 
+@Service
 public class AccountService {
+	@Autowired
+	AccountRepository repo;
+	
 	private static AccountService instance = null;
 
 	private AccountService() {
@@ -22,17 +29,11 @@ public class AccountService {
 
 	
 	public void addAccount(Account account) {
-		AccountRepository repo = AccountRepository.getInstance();
 		
-		try {
-			repo.addAccount(account);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		repo.addAccount(account);
 	}
 	
 	public void addTransaction(Transaction transaction) {
-		AccountRepository repo = AccountRepository.getInstance();
 		
 		try {
 			repo.addTransaction(transaction);
@@ -42,7 +43,6 @@ public class AccountService {
 	}
 	
 	public List<Transaction> getTransactions(String name){
-		AccountRepository repo = AccountRepository.getInstance();
 		
 		try {
 			return repo.getTransactions(name);
@@ -53,18 +53,11 @@ public class AccountService {
 	}
 	
 	public List<Account> getAccounts(){
-		AccountRepository repo = AccountRepository.getInstance();
 		
-		try {
-			return repo.getAccounts();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return repo.getAccounts();
 	}
 	
 	public Account findAccount(String name) {
-		AccountRepository repo = AccountRepository.getInstance();
 		
 		try {
 			return repo.findAccount(name);
@@ -75,7 +68,6 @@ public class AccountService {
 	}
 	
 	public void updateBalacne(String name, double balance) {
-		AccountRepository repo = AccountRepository.getInstance();
 		
 		try {
 			repo.updateBalance(name, balance);
