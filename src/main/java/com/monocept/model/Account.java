@@ -10,10 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.monocept.service.AccountService;
 
 @Entity
 public class Account {
+	
 	private static final int minBalance = 500;
 	
 	@Id
