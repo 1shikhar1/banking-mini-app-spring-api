@@ -25,12 +25,14 @@
 		var name = $("#userName");
 		name.keyup(function() {
 			var nameValue = name.val();
+			
 			$.ajax({
 				type : 'POST',
 				data : {
 					name : nameValue
 				},
 				url : 'home',
+				
 				success : function(result) {
 					if (result == true) {
 						$("#nameError").html("name already taken");
